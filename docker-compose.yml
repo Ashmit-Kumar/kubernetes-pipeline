@@ -1,6 +1,6 @@
 services:
   backend:
-    image: your-dockerhub-username/weather-backend:latest
+    image: ashmit1020/weather-backend:v1.0
     ports:
       - "5000:5000"
     environment:
@@ -8,11 +8,20 @@ services:
     env_file:
       - ./backend/.env
     restart: always
+    networks:
+      - app-network  # Add the service to the network
 
   frontend:
-    image: your-dockerhub-username/weather-frontend:latest
+    image: ashmit1020/weather-frontend:v1.0
     ports:
       - "3000:80"
     depends_on:
       - backend
     restart: always
+    networks:
+      - app-network  # Add the service to the network
+
+# Define the custom network
+networks:
+  app-network:
+    driver: bridge  # Default network driver (can be omitted if you're okay with the default)
