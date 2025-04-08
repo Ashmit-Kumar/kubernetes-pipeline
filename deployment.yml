@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-backend-deployment
+  labels:
+    app: weather-backend
+spec:
+  replicas: 1  # Adjust as necessary for scaling
+  selector:
+    matchLabels:
+      app: weather-backend
+  template:
+    metadata:
+      labels:
+        app: weather-backend
+    spec:
+      containers:
+      - name: weather-backend
+        image: ashmit1020/weather-backend:v1.0  # Replace with your backend image
+        ports:
+        - containerPort: 5000
+        env:
+        - name: NODE_ENV
+          value: "production"
+        # If using secrets or sensitive info, you can add them here
+        # - name: DB_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: db-secret
+        #       key: password
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-frontend-deployment
+  labels:
+    app: weather-frontend
+spec:
+  replicas: 1  # Adjust as necessary for scaling
+  selector:
+    matchLabels:
+      app: weather-frontend
+  template:
+    metadata:
+      labels:
+        app: weather-frontend
+    spec:
+      containers:
+      - name: weather-frontend
+        image: ashmit1020/weather-frontend:v1.0  # Replace with your frontend image
+        ports:
+        - containerPort: 3000
