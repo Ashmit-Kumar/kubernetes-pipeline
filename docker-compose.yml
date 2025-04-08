@@ -1,0 +1,18 @@
+services:
+  backend:
+    image: your-dockerhub-username/weather-backend:latest
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - ./backend/.env
+    restart: always
+
+  frontend:
+    image: your-dockerhub-username/weather-frontend:latest
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: always
