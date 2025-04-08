@@ -30,7 +30,7 @@ const getWeather = async (req, res) => {
         });
 
         const forecastData = forecastResponse.data.forecast.forecastday;
-        console.log(forecastResponse.data.forecast);
+        // console.log(forecastResponse.data.forecast);
         // Fetch alerts (if any)
         const alertsResponse = await axios.get(`http://api.weatherapi.com/v1/alerts.json`, {
             params: {
@@ -72,42 +72,3 @@ const getWeather = async (req, res) => {
 
 module.exports = { getWeather };
 
-
-
-// const axios = require('axios');
-
-// const API_KEY = process.env.WEATHER_API ; // Replace with your actual WeatherAPI key
-
-// const getWeather = async (req, res) => {
-//     const city = req.query.city || 'London';
-
-//     const url = `http://api.weatherapi.com/v1/current.json`;
-
-//     try {
-//         const response = await axios.get(url, {
-//             params: {
-//                 key: API_KEY,
-//                 q: city
-//             }
-//         });
-//         // console.log(response.data);
-//         const data = response.data;
-//         const weather = data.current;
-//         console.log(weather.humidity)
-//         res.json({
-//             city: `${data.location.name}, ${data.location.country}`,
-//             temperature: weather.temp_c,
-//             wind_speed: weather.wind_kph,
-//             humidity: weather.humidity,
-//             description: weather.condition.text,
-//             icon: weather.condition.icon,
-//             last_updated: weather.last_updated
-//         });
-
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: 'Failed to fetch weather data' });
-//     }
-// };
-
-// module.exports = { getWeather };
