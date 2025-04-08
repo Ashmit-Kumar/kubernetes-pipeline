@@ -1,4 +1,4 @@
-# Step 1: Build the React app
+# Step 1: Build the Vite React app
 FROM node:18 AS build
 
 # Set working directory
@@ -8,23 +8,27 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
+# Copy .env files if present
+COPY .env ./
+
 # Copy the rest of the frontend source code
 COPY . .
 
-# Build the React app
+# Build the Vite app
 RUN npm run build
 
-# Step 2: Serve the app with Nginx
+# Verify the build folder exists
+RUN ls -alh /app/dist
+  # List contents of the build folder (Vite uses 'dist' folder)
+
+# Step 2: Serve with Nginx
 FROM nginx:alpine
 
-# Copy built files from the build stage
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Copy custom Nginx config (optional)
-# COPY nginx.conf /etc/nginx/nginx.conf
+# Copy the build files to the Nginx server directory
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
 
-# Start Nginx
+# Run Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
